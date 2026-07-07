@@ -21,12 +21,18 @@ app.use('/api/workouts', workoutRoutes)
 //connect to db
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
-        //listen for requests
-        const PORT = process.env.PORT || 4000
-        app.listen(PORT, () => {
-            console.log('connected to mongodb & listening on port', PORT)
-        })
+        console.log('connected to mongodb')
     })
     .catch((error) => {
         console.log(error)
     })
+
+//listen for local requests
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 4000
+    app.listen(PORT, () => {
+        console.log('listening on port', PORT)
+    })
+}
+
+module.exports = app
